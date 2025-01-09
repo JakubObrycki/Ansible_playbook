@@ -1,0 +1,37 @@
+---
+# tasks file for docker_role
+- name: "Images in docker"
+  hosts: all
+  become: yes
+  tasks:
+    - name: "Vote image"
+      ansible.builtin.docker_image:
+        name: "{{ image_vote_name }}"
+        build: 
+          path: "{{ image_vote_path }}"
+        tag: latest
+        state: 'present'
+
+    - name: "Result image"
+      ansible.builtin.docker_image:
+       name: '{{ image_result_name }}'
+       build:
+         path: '{{ image_result_path }}'
+       state: 'present'
+
+    - name: "Redis image"
+      ansible.builtin.docker_image:
+       name: '{{ image_redis_name }}'
+       source: 'pull'
+
+    - name: "Postgres image"
+      ansible.builtin.docker_image:
+       name: '{{ image_sql_name }}'
+       source: 'pull'
+
+    - name: "Worker image"
+      ansible.builtin.docker_image:
+       name: '{{ image_worker_name }}'
+       build:
+         path: '{{ image_worker_path }}'
+       state: 'present'
