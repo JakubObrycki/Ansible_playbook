@@ -1,0 +1,24 @@
+# tasks file for docker_role
+- name: "Download app"
+  hosts: localhost
+  become: yes
+  vars:
+   app_path: '/home/fafto/first_project/ansible/docker_role/tasks/sample_app_docker'
+   url: 'https://github.com/dockersamples/example-voting-app.git'
+
+  tasks:
+    - name: Check url to status
+      ansible.builtin.uri:
+        url: 'https://github.com/dockersamples/example-voting-app.git'
+        method: GET
+        #return_content: yes  
+      register: result
+    
+    - name: 'Debug the result'
+      debug:
+        msg: '{{ result }}'
+
+    - name: 'Download git url'
+      git:
+        repo: '{{ url }}'
+        dest: '{{ app_path }}'

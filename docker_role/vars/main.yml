@@ -1,0 +1,13 @@
+---
+# vars file for docker_role
+image_result_path: "/home/fafto/first_project/ansible/docker_role/tasks/sample_app_docker/result"
+image_vote_name: "vote_image"
+image_result_name: "result_image"
+image_redis_name: "redis:7.4.1-alpine"
+image_sql_name: "postgres:17.2-alpine"
+image_worker_name: "worker_image"
+image_vote_path: "/home/fafto/first_project/ansible/roles/docker_role/tasks/sample_app_docker/vote"
+image_result_path: "/home/fafto/first_project/ansible/roles/docker_role/tasks/sample_app_docker/result"
+image_worker_path: "/home/fafto/first_project/ansible/roles/docker_role/tasks/sample_app_docker/worker"
+image_path: "/home/fafto/first_project/ansible/roles/docker_role/tasks"
+path_in_server: "/home/fafto-portfolio/portfolio/ansible_remote/"

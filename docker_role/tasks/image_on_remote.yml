@@ -1,0 +1,53 @@
+---
+  - name: "Images to vm"
+    hosts: test
+    become: yes
+    vars:
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+
+    tasks:
+      - name: Transfer Docker worker_image to vm
+        copy:
+         src: "{{ image_path }}/worker_image.tar"
+         dest: "{{ path_in_server }}"
+
+      - name: Load Docker image on vm
+        command: "docker load -i {{ path_in_server }}/worker_image.tar"
+
+      - name: Transfer Docker vote_image to vm
+        copy:
+         src: "{{ image_path }}/vote_image.tar"
+         dest: "{{ path_in_server }}"
+      
+      - name: Load Docker image on  vm
+        command: "docker load -i {{ path_in_server }}/vote_image.tar"
+
+      - name: Transfer Docker result_image to vm
+        copy:
+         src: "{{ image_path }}/result_image.tar"
+         dest: "{{ path_in_server }}"
+      
+      - name: Load Docker image on vm
+        command: "docker load -i {{ path_in_server }}/result_image.tar"
+
+       - name: Transfer Docker redis to vm
+         copy:
+          src: "{{ image_path }}/redis.tar"
+          dest: "{{ path_in_server }}"
+        
+       - name: Load Docker image on vm
+         command: "docker load -i {{ path_in_server }}/redis.tar"
+
+       - name: Transfer Docker postgres to vm
+         copy:
+          src: "{{ image_path }}/postgres.tar"
+          dest: "{{ path_in_server }}"
+
+       - name: Transfer playbook to vm
+         copy:
+          src: "{{ image_path }}"
+          dest: "{{ path_in_server }}"
+
+       - name: Launch playbook in vm
+         command: "ansible-playbook main.yml "
+         become: true
