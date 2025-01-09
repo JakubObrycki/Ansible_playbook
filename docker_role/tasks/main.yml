@@ -1,0 +1,63 @@
+---
+  - name: "Docker containers"
+    hosts: localhost
+    become: yes
+    tasks:
+       - name: 'Docker network'
+         ansible.builtin.docker_network:
+          name: 'docker_network'
+          state: present
+
+       - name: 'Vote container'
+         ansible.builtin.docker_container:
+          name: 'vote-image'
+          image: 'vote_image:latest'
+          env:
+            REDIS_PORT: '6379'
+          networks:
+           - name: 'docker_network'
+          ports: 
+            - '8000:80'
+          state: 'started'
+
+       - name: 'Result container'
+         ansible.builtin.docker_container:
+          name: 'result-image'
+          image: 'result_image:latest'
+          env:
+            POSTGRES_PORT: '5432'
+          ports: '8001:80'
+          networks:
+           - name: 'docker_network'
+          state: 'started'
+
+       - name: 'Redis container'
+         ansible.builtin.docker_container:
+          name: 'redis'
+          image: 'redis:7.4.1-alpine'
+          ports: '6379:6379'
+          networks:
+           - name: 'docker_network'
+          state: 'started'
+
+       - name: 'Db container'
+         ansible.builtin.docker_container:
+          name: 'db'
+          image: 'postgres:17.2-alpine'
+          env:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+          ports: '5432:5432'
+          volumes:
+            - "db-data:/var/lib/postgresql/data"
+          networks:
+           - name: 'docker_network'
+          state: 'started'
+
+       - name: 'Worker container'
+         ansible.builtin.docker_container:
+          name: 'worker-image'
+          image: 'worker_image'
+          networks:
+           - name: 'docker_network'
+          state: 'started'
