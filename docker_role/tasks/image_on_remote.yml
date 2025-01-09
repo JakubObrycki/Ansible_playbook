@@ -30,24 +30,24 @@
       - name: Load Docker image on vm
         command: "docker load -i {{ path_in_server }}/result_image.tar"
 
-       - name: Transfer Docker redis to vm
-         copy:
+      - name: Transfer Docker redis to vm
+        copy:
           src: "{{ image_path }}/redis.tar"
           dest: "{{ path_in_server }}"
         
-       - name: Load Docker image on vm
-         command: "docker load -i {{ path_in_server }}/redis.tar"
+      - name: Load Docker image on vm
+        command: "docker load -i {{ path_in_server }}/redis.tar"
 
-       - name: Transfer Docker postgres to vm
-         copy:
-          src: "{{ image_path }}/postgres.tar"
-          dest: "{{ path_in_server }}"
+      - name: Transfer Docker postgres to vm
+        copy:
+         src: "{{ image_path }}/postgres.tar"
+         dest: "{{ path_in_server }}"
 
-       - name: Transfer playbook to vm
-         copy:
-          src: "{{ image_path }}"
-          dest: "{{ path_in_server }}"
+      - name: Transfer playbook to vm
+        copy:
+         src: "{{ image_path }}"
+         dest: "{{ path_in_server }}"
 
-       - name: Launch playbook in vm
-         command: "ansible-playbook main.yml "
-         become: true
+      - name: Launch playbook in vm
+        command: "ansible-playbook main.yml "
+        become: true
