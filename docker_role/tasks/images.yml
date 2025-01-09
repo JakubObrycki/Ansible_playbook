@@ -1,7 +1,7 @@
 ---
 # tasks file for docker_role
 - name: "Images in docker"
-  hosts: all
+  hosts: localhost
   become: yes
   tasks:
     - name: "Vote image"
