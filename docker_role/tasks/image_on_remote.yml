@@ -42,6 +42,9 @@
         copy:
          src: "{{ image_path }}/postgres.tar"
          dest: "{{ path_in_server }}"
+         
+      - name: Load Docker image on vm
+        command: "docker load -i {{ path_in_server }}/postgres.tar"
 
       - name: Transfer playbook to vm
         copy:
